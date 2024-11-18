@@ -1,7 +1,8 @@
 // user interface
-export interface userProp {
-	firstname: String;
-	lastname: String;
-	email: String;
-	password: String;
+export interface userProp extends Document {
+	_id?: string;
+	firstname: string;
+	lastname: string;
+	email: string;
+	password: string;
 }

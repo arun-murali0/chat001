@@ -4,7 +4,6 @@ import { createNewUser, userLogin } from '../controllers';
 const router = Router();
 
 // auth route
-
 router.post('/auth/create', createNewUser);
 router.post('/auth/login', userLogin);
 
