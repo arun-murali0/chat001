@@ -6,6 +6,8 @@ export const createNewUser = async (req: Request, res: Response) => {
 	try {
 		let client_Data = req.body;
 
+		console.log(client_Data);
+
 		// hasing a password
 		client_Data.password = hashPassword(client_Data.password);
 

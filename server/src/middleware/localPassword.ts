@@ -3,6 +3,7 @@ import { Strategy } from 'passport-local';
 import { user } from '../models/user';
 import { verifyPassword } from './passwordhash';
 import { userProp } from '../utils/types/user';
+import { customError } from './errorHandler';
 
 passport.serializeUser((user: Pick<userProp, '_id'>, done: DoneCallback) => {
 	done(null, user._id);
@@ -14,6 +15,7 @@ passport.deserializeUser(async (_id, done: DoneCallback) => {
 		if (!findUser) {
 			done(false, null);
 		}
+		done(null, findUser);
 	} catch (error) {
 		done(error, null);
 	}
@@ -27,14 +29,14 @@ export default passport.use(
 				const findUser = await user.findOne({ email: email }).exec();
 				// check user
 				if (!findUser) {
-					return done(null, false, { message: 'user Not Found' });
+					throw new customError(401, 'user Not Found');
 				}
 				// check password
 				const match = verifyPassword(password, findUser.password);
 				if (!match) {
-					done(null, false, { message: "password didn't Match" });
+					throw new customError(401, 'please check the password');
 				}
-				done(null, findUser);
+				done(null,findUser);
 			} catch (error) {
 				done(error, false);
 			}

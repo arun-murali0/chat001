@@ -1,27 +1,19 @@
 import { Request, Response } from 'express-serve-static-core';
-import passport from '../../middleware/localPassword';
 
-export const userLogin = async (req: Request, res: Response) => {
+declare module 'express-session' {
+	interface SessionData {
+		passport: {
+			user: string;
+		};
+	}
+}
+
+export const userLogin = async (_req: Request, _res: Response) => {
 	try {
-		passport.authenticate('local', (err: any, user: any, info: any) => {
-			// error
-			if (err) {
-				res.status(500).json({ message: 'Internal server error' });
-			}
-
-			// user not found
-			if (!user) {
-				res.status(401).json({ message: info?.message || 'Invalid email or password' });
-			}
-
-			// successfull login
-			req.login(user, (err) => {
-				if (err) {
-					res.status(400).json({ message: 'Login failed' }).redirect('/auth/login');
-				}
-				res.status(200).json({ message: 'Login Successfull' });
-			});
-		});
+		const userSession = _req.session.passport?.user;
+		if (userSession) {
+			_res.status(200).json({ message: 'login succesfull' });
+		}
 	} catch (error) {
 		console.log(error.message);
 	}
