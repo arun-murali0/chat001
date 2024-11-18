@@ -17,5 +17,5 @@ export function errorMethods(_err: any, _req: Request, _res: Response, _next: Ne
 		_res.status(_err.statusCode).json({ message: _err.errorMessage });
 	}
 
-	return _res.status(500).json({ message: 'Internal Server Error' });
+	_res.status(500).json({ message: 'Internal Server Error' });
 }

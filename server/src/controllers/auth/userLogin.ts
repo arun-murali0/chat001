@@ -4,10 +4,12 @@ import passport from '../../middleware/localPassword';
 export const userLogin = async (req: Request, res: Response) => {
 	try {
 		passport.authenticate('local', (err: any, user: any, info: any) => {
+			// error
 			if (err) {
 				res.status(500).json({ message: 'Internal server error' });
 			}
 
+			// user not found
 			if (!user) {
 				res.status(401).json({ message: info?.message || 'Invalid email or password' });
 			}
