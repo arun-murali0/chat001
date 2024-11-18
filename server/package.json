@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"scripts": {
 		"dev": "nodemon src/index.ts",
-		"build":"tsc --build src/index.ts"
+		"build": "tsc --build src/index.ts"
 	},
 	"dependencies": {
 		"cors": "^2.8.5",
@@ -14,6 +14,7 @@
 		"helmet": "^8.0.0",
 		"mongoose": "^8.8.1",
 		"passport": "^0.7.0",
+		"passport-local": "^1.0.0",
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
@@ -22,6 +23,7 @@
 		"@types/helmet": "^4.0.0",
 		"@types/node": "^22.9.0",
 		"@types/passport": "^1.0.17",
+		"@types/passport-local": "^1.0.38",
 		"nodemon": "^3.1.7",
 		"ts-node": "^10.9.2",
 		"typescript": "^5.6.3"
