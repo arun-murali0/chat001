@@ -1,4 +1,5 @@
 import { Request, Response } from 'express-serve-static-core';
+import { customError } from '../../middleware/errorHandler';
 
 declare module 'express-session' {
 	interface SessionData {
@@ -15,6 +16,6 @@ export const userLogin = async (_req: Request, _res: Response) => {
 			_res.status(200).json({ message: 'login succesfull' });
 		}
 	} catch (error) {
-		console.log(error.message);
+		throw new customError(400, error.message);
 	}
 };

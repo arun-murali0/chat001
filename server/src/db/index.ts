@@ -6,10 +6,7 @@ export const DATABASE_CONNECTION = async () => {
 		if (DataConfig.api.MONGO_STRING) {
 			mongoose.connect(DataConfig.api.MONGO_STRING);
 		}
-		console.log("connection Established");
-		
 	} catch (error) {
-		console.log(error.message);
 		process.exit(1);
 	}
 };

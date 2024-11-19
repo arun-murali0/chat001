@@ -1,5 +1,6 @@
 import { Request, Response } from 'express-serve-static-core';
 import { newUser } from '../../services/auth/newUser';
+import { customError } from '../../middleware/errorHandler';
 
 export const createNewUser = async (req: Request, res: Response) => {
 	try {
@@ -9,6 +10,6 @@ export const createNewUser = async (req: Request, res: Response) => {
 			res.status(200).json({ message: 'new User created successfully' });
 		}
 	} catch (error) {
-		console.log(error.message);
+		throw new customError(400, error.message);
 	}
 };
