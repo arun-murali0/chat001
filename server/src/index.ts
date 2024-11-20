@@ -9,7 +9,8 @@ import morgan from 'morgan';
 const app = express();
 import router from './routes';
 import { DATABASE_CONNECTION } from './db';
-import { customError, errorMethods } from './middleware/errorHandler';
+import { errorMethods } from './middleware/errorHandler';
+import { webSocketSetup } from './websocket';
 
 const morganFormat = ':method :url :status :response-time ms';
 const PORT = process.env.PORT || 3000;
@@ -56,15 +57,15 @@ app.use(passport.session());
 app.use('/api', router);
 
 // database connection
-DATABASE_CONNECTION()
-	.then(() => {
-		app.listen(PORT, () => {
-			console.log(`server running in http://localhost:${process.env.PORT}`);
-		});
-	})
-	.catch((err) => {
-		throw new customError(400, err.message);
-	});
+DATABASE_CONNECTION();
+
+// server listening
+export const server = app.listen(PORT, () => {
+	console.log(`server running in http://localhost:${process.env.PORT}`);
+});
+
+// websocket connection
+webSocketSetup(server);
 
 // error handler
 app.use(errorMethods);
