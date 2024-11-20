@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+	:root {
+		--bg-background: 0, 0%, 12%;
+		--text-primary: 0, 0%, 88%;
+		--text-secondary: 0, 0%, 69%;
+		--accent-primary: 210, 100%, 56%;
+		--accent-seconadary: 120, 60%, 70%;
+		--button-primary: 134, 60%, 50%;
+		--button-secondary: 0, 0%, 46%;
+		--input-bg: 0, 0%, 20%;
+		--input-text-primary: 0, 0%, 100%;
+		--text-danger: 14, 100%, 60%;
+		--text-warn: 45, 100%, 60%;
+		--text-link: 270, 56%, 80%;
+		--text-icon: 0, 0%, 88%;
+	}
+}
