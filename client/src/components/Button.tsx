@@ -6,15 +6,18 @@ export enum buttonType {
 	button = 'button',
 }
 
-interface ButtonProp {
+export interface ButtonProp {
 	className?: string;
-	buttonType: buttonType;
+	buttonType?: buttonType;
 	value: string;
 }
 
 export const Button: FC<ButtonProp> = ({ className, buttonType, value }) => {
 	return (
-		<button className={`${className} px-8 py-3  bg-[#202120] text-white`} type={buttonType}>
+		<button
+			className={`${className} px-8 py-2  bg-buttonPrimary rounded-lg border border-neutral-600 `}
+			type={buttonType}
+		>
 			{value}
 		</button>
 	);

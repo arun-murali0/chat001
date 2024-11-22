@@ -1,5 +1,10 @@
+import AuthView from './view/AuthView';
+
 export default function App() {
-	return <div className="">
-		
-	</div>;
+	return (
+		<main className="flex justify-center w-full flex-col">
+			<AuthView/>
+
+		</main>
+	);
 }
