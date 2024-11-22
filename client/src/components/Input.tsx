@@ -1,32 +1,35 @@
 import { FC } from 'react';
-import { useForm } from 'react-hook-form';
+import { useController, UseControllerProps } from 'react-hook-form';
 
-interface InputProp {
+interface InputProp extends UseControllerProps {
 	placeholder?: string;
 	type: string;
-	label?: string;
+	label: string;
 	className?: string;
 }
 
-export const Input: FC<InputProp> = ({ placeholder, type, label, className }) => {
+export const Input: FC<InputProp> = ({
+	placeholder,
+	type = 'text',
+	label,
+	className,
+	...useControllerProps
+}) => {
 	const {
-		register,
-		formState: { errors },
-	} = useForm();
+		field,
+		fieldState: { error },
+	} = useController(useControllerProps);
 
 	return (
 		<section>
-			<label htmlFor={label} className="text-primaryText">
-				{label}
-			</label>
+			<label className="text-primaryText">{label}</label>
 			<input
+				{...field}
 				placeholder={placeholder}
 				type={type}
-				id={label}
 				className={`${className} p-2 my-2 w-full outline-none bg-inputText text-backgroundInput`}
-				{...register(`${label}`)}
 			/>
-			<div className="text-textDanger">{errors.root?.message}</div>
+			{error && <div className="text-textDanger">{error.message}</div>}
 		</section>
 	);
 };
