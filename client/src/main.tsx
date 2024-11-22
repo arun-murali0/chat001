@@ -28,7 +28,7 @@ const router = createBrowserRouter([
 
 // main
 createRoot(document.getElementById('root')!).render(
-	<section className="h-screen w-screen overflow-x-hidden bg-backgroundInput text-primaryText">
+	<section className="h-screen w-screen overflow-x-hidden bg-backgroundInput text-primaryText antialiased">
 		<RouterProvider router={router} />
 	</section>
 );

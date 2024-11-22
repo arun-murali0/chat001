@@ -17,6 +17,7 @@ export default {
 				textWarn: 'hsl(var(--text-warn))',
 				linkColor: 'hsl(var(--text-link))',
 				iconColor: 'hsl(var(--text-icon))',
+				borderColor:'hsl(var(--border))'
 			},
 		},
 	},

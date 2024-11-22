@@ -1,16 +1,21 @@
 import { FC } from 'react';
+import { useForm } from 'react-hook-form';
 
 interface InputProp {
 	placeholder?: string;
 	type: string;
 	label?: string;
-	onChange?: () => {};
 	className?: string;
 }
 
-export const Input: FC<InputProp> = ({ onChange, placeholder, type, label, className }) => {
+export const Input: FC<InputProp> = ({ placeholder, type, label, className }) => {
+	const {
+		register,
+		formState: { errors },
+	} = useForm();
+
 	return (
-		<div>
+		<section>
 			<label htmlFor={label} className="text-primaryText">
 				{label}
 			</label>
@@ -18,9 +23,10 @@ export const Input: FC<InputProp> = ({ onChange, placeholder, type, label, class
 				placeholder={placeholder}
 				type={type}
 				id={label}
-				onChange={onChange}
-				className={`${className} p-2 my-2 w-full outline-none bg-inputText`}
+				className={`${className} p-2 my-2 w-full outline-none bg-inputText text-backgroundInput`}
+				{...register(`${label}`)}
 			/>
-		</div>
+			<div className="text-textDanger">{errors.root?.message}</div>
+		</section>
 	);
 };

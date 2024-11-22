@@ -4,8 +4,8 @@ import { Wrapper } from '../global/Container';
 
 export default function AuthView() {
 	return (
-		<Wrapper>
-			<Form>
+		<Wrapper className='flex justify-center items-center h-screen'>
+			<Form className='border border-borderColor'>
 				<Link to={'/login'}>Login</Link>
 				<Link to={'/register'}>Register</Link>
 			</Form>
