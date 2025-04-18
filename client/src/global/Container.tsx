@@ -1,8 +1,8 @@
-import { FC, ReactElement } from 'react';
+import { FC, ReactNode } from 'react';
 
 interface ContainerProp {
 	className?: string;
-	children: ReactElement;
+	children: ReactNode;
 }
 
 export const Wrapper: FC<ContainerProp> = ({ className, children }) => {

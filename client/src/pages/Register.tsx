@@ -3,6 +3,7 @@ import { Input } from '../components/Input';
 import { Wrapper } from '../global/Container';
 import useFormHook from '../hooks/useForm';
 import { RegisterValidationSchema, registerType } from '../utils/validation/RegisterSchema';
+import { Link } from 'react-router-dom';
 
 export default function Login() {
 	const { control, handleSubmit } = useFormHook<registerType>(RegisterValidationSchema);
@@ -40,6 +41,9 @@ export default function Login() {
 					control={control}
 				/>
 				<Button buttonType={buttonType.submit} value="Register" className="w-full my-3" />
+				<Link to="/" className="text-linkColor">
+					back
+				</Link>
 			</form>
 		</Wrapper>
 	);

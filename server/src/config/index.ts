@@ -1,8 +1,12 @@
-import dotenv from 'dotenv';
-dotenv.config();
+import dotEnv from 'dotenv';
+dotEnv.config();
 
-export const DataConfig = {
-	api: {
-		MONGO_STRING: process.env.MONGO_STRING,
-	},
+interface getConfigType {
+	PORT: string;
+	MONGO_STRING: string;
+}
+
+export const GetConfig: getConfigType = {
+	PORT: process.env.PORT!,
+	MONGO_STRING: process.env.MONGO_STRING!,
 };

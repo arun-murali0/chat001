@@ -5,6 +5,7 @@ import App from './App.tsx';
 import NotFound from './pages/NotFound.tsx';
 import Login from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
+import ChatRoom from './view/ChatRoom.tsx';
 
 // Router
 const router = createBrowserRouter([
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
 	{
 		path: '/register',
 		element: <Register />,
+	},
+	{
+		path: '/chatroom',
+		element: <ChatRoom />,
 	},
 	{
 		path: '*',
