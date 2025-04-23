@@ -1,12 +1,11 @@
 import mongoose from 'mongoose';
-import { usertype } from 'src/types/userType';
+import { userProps } from '../../../types';
 
-const userModel = new mongoose.Schema<usertype>(
+export const userSchema = new mongoose.Schema<userProps>(
 	{
 		fullname: {
 			type: String,
 			required: true,
-			min: 3,
 		},
 		email: {
 			type: String,
@@ -27,4 +26,4 @@ const userModel = new mongoose.Schema<usertype>(
 	}
 );
 
-export const user = mongoose.model<usertype>('user', userModel);
+export const user = mongoose.model<userProps>('user', userSchema);

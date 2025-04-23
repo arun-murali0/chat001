@@ -1,6 +1,6 @@
-export type usertype = {
+export type userProps = {
 	fullname: string;
-	email: string;
 	password: string;
+	email: string;
 	profile: string;
 };

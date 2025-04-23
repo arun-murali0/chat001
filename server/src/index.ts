@@ -1,24 +1,22 @@
-import express from 'express';
+import Express from 'express';
 import { GetConfig } from './config';
-import { DatabaseConnection } from './infrastructure/mongo/db';
-import { InitRoutes } from './interface/routes';
-import { errorHandler } from './interface/middlewares/errorHandler';
+import { initRoutes } from './interface/http/routes';
+import { DatabaseConnection } from './infrastructure/db/mongo';
+import { errorHandler } from './interface/http/middleware/errorHandler';
 
-export const app = express();
+const app = Express();
 
-// middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-app.use('/', InitRoutes());
+app.use(initRoutes());
 
 app.use(errorHandler);
-app.listen(GetConfig.PORT, async () => {
-	try {
-		await DatabaseConnection(GetConfig.MONGO_STRING);
-		console.info('server running....');
-	} catch (error) {
+
+DatabaseConnection(GetConfig.MONGO_STRING)
+	.then(() => {
+		app.listen(GetConfig.PORT, () => {
+			console.info('server running', GetConfig.PORT);
+		});
+	})
+	.catch((error) => {
 		console.error(error);
 		process.exit(1);
-	}
-});
+	});
