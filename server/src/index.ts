@@ -1,22 +1,25 @@
-import Express from 'express';
-import { GetConfig } from './config';
-import { initRoutes } from './interface/http/routes';
-import { DatabaseConnection } from './infrastructure/db/mongo';
-import { errorHandler } from './interface/http/middleware/errorHandler';
+import express from 'express';
+import { errorHandler } from './presentation/middleware/errorHandlerMiddleware';
+import { connectToMongoDB } from './infrastructure/mongo/db';
+import { config } from './config/appConfig';
+const app = express();
 
-const app = Express();
 
-app.use(initRoutes());
+// middleware
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+// app.use(cors)
 
-app.use(errorHandler);
 
-DatabaseConnection(GetConfig.MONGO_STRING)
-	.then(() => {
-		app.listen(GetConfig.PORT, () => {
-			console.info('server running', GetConfig.PORT);
-		});
-	})
-	.catch((error) => {
-		console.error(error);
-		process.exit(1);
+
+// Error handler
+app.use(errorHandler)
+
+
+connectToMongoDB(config.MONGO_STRING!).then(() => {
+	// server
+	app.listen(3000, () => {
+		console.log('Server is running on http://localhost:3000');
 	});
+}).catch(err => console.error(err))
+

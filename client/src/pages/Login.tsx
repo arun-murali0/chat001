@@ -22,7 +22,7 @@ export default function Login() {
 					placeholder="Enter your email"
 					name="email"
 					label="Email"
-					className="my-3"
+					className="my-3 "
 					control={control}
 				/>
 				<Input
@@ -36,7 +36,7 @@ export default function Login() {
 				<Button buttonType={buttonType.submit} value="Login" className="w-full my-3" />
 				<div className="flex justify-between mt-2">
 					<Link to="/" className="text-linkColor">
-						back
+						Back
 					</Link>
 					<div>
 						New user ?{' '}

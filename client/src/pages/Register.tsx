@@ -42,7 +42,7 @@ export default function Login() {
 				/>
 				<Button buttonType={buttonType.submit} value="Register" className="w-full my-3" />
 				<Link to="/" className="text-linkColor">
-					back
+					Back
 				</Link>
 			</form>
 		</Wrapper>
