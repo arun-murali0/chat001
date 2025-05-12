@@ -1,25 +1,19 @@
 import express from 'express';
-import { errorHandler } from './presentation/middleware/errorHandlerMiddleware';
-import { connectToMongoDB } from './infrastructure/mongo/db';
 import { config } from './config/appConfig';
+import { ConnectToDatabase } from './infrastructure/mongo/db';
+import { InitRoutes } from './presentation/routes';
+
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// middleware
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-// app.use(cors)
+app.use('/', InitRoutes);
 
-
-
-// Error handler
-app.use(errorHandler)
-
-
-connectToMongoDB(config.MONGO_STRING!).then(() => {
-	// server
-	app.listen(3000, () => {
-		console.log('Server is running on http://localhost:3000');
-	});
-}).catch(err => console.error(err))
-
+ConnectToDatabase(config.MONGO_STRING!)
+	.then(() => {
+		app.listen(config.PORT, () => {
+			console.log('Server is running on port', config.PORT);
+		});
+	})
+	.catch((err) => console.error(err));
