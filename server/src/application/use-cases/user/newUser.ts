@@ -16,6 +16,25 @@ export const newUser = (
 		if (!mappedUser) {
 			throw new Error('Error mapping user');
 		}
-		return await userRepository.createUser(mappedUser);
+
+		const existingUser = await userRepository.findUserByEmail(mappedUser.email);
+		if (existingUser) {
+			throw new Error('User already exists');
+		}
+		const hashedPassword = await userRepository.hashPassword!(mappedUser.password);
+
+		const passwordHashedUser = {
+			...mappedUser,
+			hashedPassword,
+		};
+
+		const token = await userRepository.generateToken!(mappedUser.email);
+
+		console.log('token', token);
+
+		return {
+			user: await userRepository.createUser(passwordHashedUser),
+			token: token,
+		};
 	};
 };
