@@ -6,6 +6,7 @@ import {
 	GenerateAndVerifyTokenService,
 	HashingService,
 } from '../../../domain/services/userServices';
+import { AppError } from '../../../utils/shared/AppError';
 
 export const newUser = (
 	validationService: ValidationServiceProp<userProp>,
@@ -17,16 +18,16 @@ export const newUser = (
 	return async (userData: userProp) => {
 		const validateResult = validationService.validate(userData);
 		if (!validateResult.success) {
-			throw new Error(validateResult?.errors);
+			throw new AppError(validateResult.errors || 'Validation error', 400);
 		}
 		const mappedUser = MappingService.mapToDomainModel(validateResult?.data);
 		if (!mappedUser) {
-			throw new Error('Error mapping user');
+			throw new AppError('Mapping error', 400);
 		}
 
 		const existingUser = await userRepository.findUserByEmail(mappedUser.email);
 		if (existingUser) {
-			throw new Error('User already exists');
+			throw new AppError('User already exists', 400);
 		}
 
 		mappedUser.password = await hashing.hashPassword(mappedUser.password);
@@ -37,11 +38,8 @@ export const newUser = (
 			role: mappedUser.role,
 		});
 
-		console.log('token', token);
-		console.log(mappedUser?._id);
-
 		if (!token) {
-			throw new Error('Error generating token');
+			throw new AppError('Token generation error', 500);
 		}
 		return {
 			id: mappedUser?._id,
