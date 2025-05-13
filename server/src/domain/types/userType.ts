@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 export type userProp = {
-	id?: mongoose.Types.ObjectId | string;
+	_id?: mongoose.Types.ObjectId | string;
 	fullname: string;
 	nickname: string;
 	email: string;

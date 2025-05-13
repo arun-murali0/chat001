@@ -2,7 +2,7 @@ import { userProp } from '../types/userType';
 
 // Function to map user object to userEntities
 export const userMapToEntities = ({
-	id,
+	_id,
 	fullname,
 	createdAt,
 	email,
@@ -15,7 +15,7 @@ export const userMapToEntities = ({
 	updatedAt,
 }: userProp) => {
 	return {
-		id,
+		_id,
 		fullname,
 		nickname,
 		email,

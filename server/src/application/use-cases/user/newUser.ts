@@ -1,11 +1,18 @@
 import { IuserRepository } from '../../../application/ports/userPorts';
 import { userProp } from '../../../domain/types/userType';
-import { ValidationServiceProp, MappingService } from '../../../domain/services/userServices';
+import {
+	ValidationServiceProp,
+	MappingService,
+	GenerateAndVerifyTokenService,
+	HashingService,
+} from '../../../domain/services/userServices';
 
 export const newUser = (
 	validationService: ValidationServiceProp<userProp>,
 	MappingService: MappingService<userProp, userProp>,
-	userRepository: IuserRepository
+	userRepository: IuserRepository,
+	hashing: HashingService,
+	tokenServices: GenerateAndVerifyTokenService
 ) => {
 	return async (userData: userProp) => {
 		const validateResult = validationService.validate(userData);
@@ -21,20 +28,24 @@ export const newUser = (
 		if (existingUser) {
 			throw new Error('User already exists');
 		}
-		const hashedPassword = await userRepository.hashPassword!(mappedUser.password);
 
-		const passwordHashedUser = {
-			...mappedUser,
-			hashedPassword,
-		};
-
-		const token = await userRepository.generateToken!(mappedUser.email);
+		mappedUser.password = await hashing.hashPassword(mappedUser.password);
+		await userRepository.createUser(mappedUser);
+		const token = tokenServices.accessToken({
+			email: mappedUser.email,
+			id: mappedUser?._id,
+			role: mappedUser.role,
+		});
 
 		console.log('token', token);
+		console.log(mappedUser?._id);
 
+		if (!token) {
+			throw new Error('Error generating token');
+		}
 		return {
-			user: await userRepository.createUser(passwordHashedUser),
-			token: token,
+			id: mappedUser?._id,
+			email: mappedUser.email,
 		};
 	};
 };
