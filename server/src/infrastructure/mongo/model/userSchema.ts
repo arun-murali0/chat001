@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 import { userProp } from '../../../domain/types/userType';
 
 const userSchema = new mongoose.Schema<userProp>({
-	fullname: { type: String, required: true, min: 3, max: 50 },
-	nickname: { type: String, required: true, min: 3, max: 50, unique: true },
+	fullname: { type: String, required: true, min: 3, max: 50, default: '' },
+	nickname: { type: String, required: true, min: 3, max: 50, unique: true, default: '' },
 	email: { type: String, unique: true, required: true },
 	password: { type: String, min: 8 },
 	role: { type: String, enum: ['user', 'admin'], default: 'user' },

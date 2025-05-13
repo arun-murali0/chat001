@@ -4,7 +4,7 @@ const AuthRouter = () => {
 	const router = Router();
 
 	router.post('/sign-up', AuthController.signUp);
-	// router.post('/sign-in', AuthController.signIn);
+	router.post('/sign-in', AuthController.signIn);
 	// router.post('/sign-out', AuthController.signOut);
 
 	return router;

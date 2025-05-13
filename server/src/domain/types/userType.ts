@@ -13,3 +13,10 @@ export type userProp = {
 	isDeleted: boolean;
 	lastLogin: Date;
 };
+
+export type userPropWithoutPassword = Omit<userProp, 'password'>;
+
+export type loginProp = {
+	email: string;
+	password: string;
+};

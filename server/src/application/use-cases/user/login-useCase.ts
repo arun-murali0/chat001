@@ -1,5 +1,5 @@
 import { IuserRepository } from '../../../application/ports/userPorts';
-import { userProp } from '../../../domain/types/userType';
+import { loginProp } from '../../../domain/types/userType';
 import {
 	ValidationServiceProp,
 	MappingService,
@@ -8,34 +8,36 @@ import {
 } from '../../../domain/services/userServices';
 import { AppError } from '../../../utils/shared/AppError';
 
-export const newUser = (
-	validationService: ValidationServiceProp<userProp>,
-	MappingService: MappingService<userProp, userProp>,
+export const loginUser = (
+	validationService: ValidationServiceProp<loginProp>,
+	MappingService: MappingService<loginProp, loginProp>,
 	userRepository: IuserRepository,
 	hashing: HashingService,
 	tokenServices: GenerateAndVerifyTokenService
 ) => {
-	return async (userData: userProp) => {
+	return async (userData: loginProp) => {
 		const validateResult = validationService.validate(userData);
 		if (!validateResult.success) {
 			throw new AppError(validateResult.errors || 'Validation error', 400);
 		}
+
 		const mappedUser = MappingService.mapToDomainModel(validateResult?.data);
 		if (!mappedUser) {
 			throw new AppError('Mapping error', 400);
 		}
 
-		const existingUser = await userRepository.findUserByEmail(mappedUser.email);
-		if (existingUser) {
-			throw new AppError('User already exists', 400);
+		const findUser = await userRepository.findUserByEmail(mappedUser.email);
+		if (!findUser) {
+			throw new AppError('User not found', 404);
 		}
 
-		mappedUser.password = await hashing.hashPassword(mappedUser.password);
-		await userRepository.createUser(mappedUser);
+		const isPasswordValid = await hashing.verifyPassword(mappedUser.password, findUser.password);
+		if (!isPasswordValid) {
+			throw new AppError('Invalid password', 401);
+		}
+
 		const token = tokenServices.accessToken({
 			email: mappedUser.email,
-			id: mappedUser?._id,
-			role: mappedUser.role,
 		});
 
 		if (!token) {

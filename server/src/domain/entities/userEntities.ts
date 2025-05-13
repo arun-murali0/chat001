@@ -1,7 +1,7 @@
-import { userProp } from '../types/userType';
+import { userProp, loginProp } from '../types/userType';
 
 // Function to map user object to userEntities
-export const userMapToEntities = ({
+export const userMapToNewEntities = ({
 	_id,
 	fullname,
 	createdAt,
@@ -27,4 +27,11 @@ export const userMapToEntities = ({
 		role,
 		lastLogin,
 	} as userProp;
+};
+
+export const userMapToLoginEntities = ({ email, password }: loginProp) => {
+	return {
+		email,
+		password,
+	} as loginProp;
 };
